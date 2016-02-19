@@ -1,11 +1,12 @@
-from beprof.curve import Curve
+from beprof import curve
+from beprof import functions
 import numpy as np
 import logging
 
 __author__ = 'grzanka'
 
 
-class Profile(Curve):
+class Profile(curve.Curve):
     """
     General profile characterized by rising and falling edge
     Might be depth profile (along Z axis) or lateral profile (X or Y scan)
@@ -208,7 +209,7 @@ class DepthProfile(Profile):
 
 def main():
     print('\nProfile')
-    p = Profile([[1, 0], [2, 1], [3, 0]], first='one', second='two', third='three')
+    p = Profile([[0, 0], [1, 1], [2, 2], [3, 1]], some='exemplary', meta='data')
     print("X:", p.x)
     print("Y:", p.y)
     print("meta:", p.metadata)
@@ -239,6 +240,25 @@ def main():
     print("\n last example:\n")
     pp = test.view(Profile)
     print(pp)
+    print('M: ', p.metadata)
+
+    p2 = Profile([[1.5, 1], [2.5, 1], [3.5, 2], [4, 1]])
+    print("X:", p2.x)
+    print("Y:", p2.y)
+    print('M: ', p2.metadata)
+
+    b = curve.Curve([[0.5, 1], [1.5, 1], [2, 1], [2.5, 1]], negative='one')
+
+    print('\na: \n')
+    print('X: ', b.x)
+    print('Y: ', b.y)
+    print('M: ', b.metadata)
+
+    diff = functions.subtract(p, b)
+    print('type(diff): ', type(diff))
+    print("X:", diff.x)
+    print("Y:", diff.y)
+    print('M: ', diff.metadata)
 
 
 if __name__ == '__main__':
